@@ -1,0 +1,24 @@
+.header {
+  background-color: #6f9bd1;
+  margin: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 30px;
+  opacity: 0.9;
+}
+
+.link {
+  color: #c9d6cb;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.active {
+  color: #1e1f21;
+}

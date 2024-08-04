@@ -1,0 +1,40 @@
+.container {
+  color: white;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.movieContainer {
+  display: flex;
+  gap: 20px;
+  padding: 50px;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+.img {
+  margin-right: 20px;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.textRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.additionalInfo {
+  margin-top: 20px;
+}
+
+.list {
+  display: flex;
+  gap: 10px;
+}
