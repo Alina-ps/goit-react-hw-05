@@ -38,7 +38,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <h2>Trending today</h2>
+      <h2 className={s.heading}>Trending today</h2>
       <MovieList movies={movies} />
       {isLoading && <Loader />}
       {total > movies.length && !isLoading && (
