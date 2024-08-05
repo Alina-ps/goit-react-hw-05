@@ -8,27 +8,37 @@ import {
   useParams,
 } from 'react-router-dom';
 import s from './MovieDetailsPage.module.css';
+import clsx from 'clsx';
+import Loader from '../../components/Loader/Loader';
 
 const MovieDetailsPage = () => {
   const params = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
   const goBackRef = useRef(location?.state || '/movies');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const buildLinkClass = ({ isActive }) => {
+    return clsx(s.link, isActive && s.active);
+  };
 
   useEffect(() => {
     const getMovieById = async () => {
+      setIsLoading(true);
       try {
         const response = await fetchMovieById(params.movieId);
         setMovie(response);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getMovieById();
   }, [params.movieId]);
 
-  if (!movie) {
-    return <h2>Loading...</h2>;
+  if (isLoading || !movie) {
+    return <Loader />;
   }
 
   return (
@@ -55,7 +65,7 @@ const MovieDetailsPage = () => {
             <p>{movie.origin_country}</p>
           </div>
           <div className={s.textRow}>
-            <h4> Duration:</h4>
+            <h4>Duration:</h4>
             <p>{movie.runtime} min</p>
           </div>
           <div className={s.textRow}>
@@ -70,8 +80,12 @@ const MovieDetailsPage = () => {
       </div>
       <div className={s.additionalInfo}>
         <h4>Additional information</h4>
-        <NavLink to="cast">Cast</NavLink>
-        <NavLink to="reviews">Reviews</NavLink>
+        <NavLink className={buildLinkClass} to="cast">
+          Cast
+        </NavLink>
+        <NavLink className={buildLinkClass} to="reviews">
+          Reviews
+        </NavLink>
       </div>
       <Suspense fallback={<h2>Second suspense loader</h2>}>
         <Outlet />

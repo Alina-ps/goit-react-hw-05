@@ -21,13 +21,14 @@ const MovieList = ({ movies = [] }) => {
                 height={300}
               />
 
-              <p className={s.itemText}>{movie.title}</p>
               <p className={s.rating}>
                 <span className={s.span} role="img" aria-label="star">
                   ⭐
                 </span>
                 {Math.round(movie.vote_average * 10) / 10}
               </p>
+
+              <p className={s.itemText}>{movie.title}</p>
             </Link>
           </li>
         ))}

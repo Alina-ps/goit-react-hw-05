@@ -1,11 +1,10 @@
-import s from './MoviesPage.module.css';
-
 import { useEffect, useState } from 'react';
 import { fetchMovies } from '../../services/api';
 import MovieList from '../../components/MovieList/MovieList';
 import LoadMoreBtn from '../../components/LoadMoreBtn/LoadMoreBtn';
 import Loader from '../../components/Loader/Loader';
 import { useSearchParams } from 'react-router-dom';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
@@ -14,12 +13,9 @@ const MoviesPage = () => {
   const [total, setTotal] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const filterValue = searchParams.get('query') ?? '';
-  const [query, setQuery] = useState(filterValue);
 
   useEffect(() => {
     const searchMovies = async () => {
-      if (!filterValue) return;
-
       setIsLoading(true);
       try {
         const response = await fetchMovies(filterValue, page);
@@ -39,19 +35,14 @@ const MoviesPage = () => {
     searchMovies();
   }, [filterValue, page]);
 
-  const handleChangeFilter = (e) => {
-    setQuery(e.target.value);
-  };
-
-  const handleSearch = () => {
-    if (!query) {
-      setSearchParams({});
-      setMovies([]);
-      setPage(1);
-      return;
+  const handleChangeFilter = (newValue) => {
+    if (!newValue) {
+      return setSearchParams({});
     }
-    setSearchParams({ query });
-    setPage(1);
+
+    searchParams.set('query', newValue);
+
+    setSearchParams(searchParams);
   };
 
   const loadMore = () => {
@@ -60,19 +51,10 @@ const MoviesPage = () => {
 
   return (
     <div>
-      <div className={s.searchCotainer}>
-        <input
-          className={s.input}
-          type="search"
-          value={query}
-          onChange={handleChangeFilter}
-          placeholder="Search for movies"
-        />
-        <button className={s.searchButton} type="submit" onClick={handleSearch}>
-          Search
-        </button>
-      </div>
-
+      <SearchBar
+        handleChangeFilter={handleChangeFilter}
+        filterValue={filterValue}
+      />
       <MovieList movies={movies} />
       {isLoading && <Loader />}
       {total > movies.length && !isLoading && (

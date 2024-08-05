@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieCast } from '../../services/api';
+import s from './MovieCast.module.css';
 
 const MovieCast = () => {
   const params = useParams();
@@ -20,17 +21,20 @@ const MovieCast = () => {
 
   return (
     <div>
-      <h3>Cast</h3>
-      <ul>
+      <ul className={s.list}>
         {cast.map((item) => (
-          <li key={item.id}>
+          <li className={s.listItem} key={item.id}>
             <img
-              src={`https://image.tmdb.org/t/p/w500/${item.profile_path}`}
+              src={
+                item.profile_path
+                  ? `https://image.tmdb.org/t/p/w500/${item.profile_path}`
+                  : 'https://via.placeholder.com/200x300?text=No+Image+Available'
+              }
               alt={item.name}
-              width={50}
+              width={100}
             />
-            <p>
-              {item.name} as {item.character}
+            <p className={s.itemText}>
+              {item.name} <span className={s.span}>({item.character})</span>
             </p>
           </li>
         ))}
